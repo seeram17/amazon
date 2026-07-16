@@ -26,3 +26,9 @@ export function addToCart(productId) {
       });
     }
 }
+
+export function removeFromCart(productId) {
+  cart.forEach((cartitem,index)=>{
+            if(cartitem.productId === productId) cart.splice(index,1) ;
+        });
+}
