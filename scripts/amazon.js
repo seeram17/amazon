@@ -1,3 +1,6 @@
+import {cart} from "../data/cart.js" ;
+import {products} from "../data/products.js" ;
+
 let productshtml = "";
 
 products.forEach((product) => {
@@ -26,7 +29,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -42,7 +45,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart-${product.id} added-to-cart">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -58,7 +61,7 @@ products.forEach((product) => {
 document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
   button.addEventListener('click',()=>{
 
-    const productId = button.getAttribute("data-product-id") ;
+              const productId = button.getAttribute("data-product-id") ;
 
                let itemMatched = null ;
 
@@ -68,11 +71,11 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
 
 
               if(itemMatched){
-                itemMatched.quantity++ ;  
+                itemMatched.quantity= itemMatched.quantity + parseInt(document.querySelector(`.js-quantity-selector-${productId}`).value) ;  
               }else{
                 cart.push({
                   productId: productId,
-                  quantity: 1
+                  quantity: parseInt(document.querySelector(`.js-quantity-selector-${productId}`).value)
                 });
               }
 
@@ -83,6 +86,14 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
               });
 
               document.querySelector(".js-cart-quantity").innerText = cartQuantity ;
+
+              document.querySelector(`.added-to-cart-${productId}`).classList.add("added-to-cart-visible") ;
+
+             setTimeout(()=>{
+              document.querySelector(`.added-to-cart-${productId}`).classList.remove("added-to-cart-visible") ;
+             },2000);
+
+              
 
   });
 });
