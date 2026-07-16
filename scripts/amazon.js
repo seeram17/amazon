@@ -1,11 +1,9 @@
+let productshtml = "";
 
-let productshtml = "" ; 
+products.forEach((product) => {
+  const menu = document.querySelector(".products-grid");
 
-products.forEach((product)=>{
-
-    const menu = document.querySelector(".products-grid") ;
-
-    productshtml+=`<div class="product-container">
+  productshtml += `<div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
               src="${product.image}">
@@ -17,14 +15,14 @@ products.forEach((product)=>{
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="images/ratings/rating-${product.rating.stars*10}.png">
+              src="images/ratings/rating-${product.rating.stars * 10}.png">
             <div class="product-rating-count link-primary">
               ${product.rating.count}
             </div>
           </div>
 
           <div class="product-price">
-            $${(product.priceCents/100).toFixed(2)}
+            $${(product.priceCents / 100).toFixed(2)}
           </div>
 
           <div class="product-quantity-container">
@@ -49,11 +47,36 @@ products.forEach((product)=>{
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-id="${product.id}" >
             Add to Cart
           </button>
         </div>
-`
-menu.innerHTML = productshtml ;
+`;
+  menu.innerHTML = productshtml;
+});
 
+document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
+  button.addEventListener('click',()=>{
+
+    const productId = button.getAttribute("data-product-id") ;
+
+               let itemMatched = null ;
+
+               cart.forEach((item)=>{
+                      if(item.productId === productId) itemMatched = item ;
+              });
+
+
+              if(itemMatched){
+                itemMatched.quantity++ ;  
+              }else{
+                cart.push({
+                  productId: productId,
+                  quantity: 1
+                });
+              }
+
+              console.log(cart) ;
+
+  });
 });
