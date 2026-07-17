@@ -2,6 +2,8 @@ import {cart,addToCart} from "../data/cart.js" ;
 import {products} from "../data/products.js" ;
 import {formatCurrency} from "./utils.js" ;
 
+updateCartQuantity() ;
+
 let productshtml = "";
 
 products.forEach((product) => {
@@ -74,7 +76,7 @@ function updateCartQuantity() {
   document.querySelector(".js-cart-quantity").innerText = cartQuantity;
 }
 
-updateCartQuantity() ;
+
 
 function showAddedToCartMessage(productId) {
       document.querySelector(`.added-to-cart-${productId}`).classList.add("added-to-cart-visible") ;

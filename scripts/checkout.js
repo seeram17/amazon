@@ -3,6 +3,7 @@ import {products} from "../data/products.js" ;
 import {formatCurrency} from "./utils.js" ;
 
 
+document.querySelector(".return-to-home-link").innerText = `${cart.length} items` ;
 
 let checkoutItemsHTML = "" ;
 
@@ -35,7 +36,7 @@ cart.forEach((cartitem)=>{
                   <span>
                     Quantity: <span class="quantity-label">${cartitem.quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary js-update-link" data-product-id="${product.id}">
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${product.id}">
@@ -102,7 +103,6 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>{
         const productId =  link.getAttribute("data-product-id") ;
 
         removeFromCart(productId) ;
-        
         
     });
 });

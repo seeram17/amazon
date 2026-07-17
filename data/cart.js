@@ -1,7 +1,6 @@
 export const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [
-  
-];
 
+];
 
 export function addToCart(productId) {
    let itemMatched = null ;
@@ -33,6 +32,8 @@ export function removeFromCart(productId) {
         document.querySelector(`.cart-item-container-${productId}`).remove() ;
 
         saveCartToLocalStorage() ;
+
+        document.querySelector(".return-to-home-link").innerText = `${cart.length} items` ;
 
     
 }
