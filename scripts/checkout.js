@@ -1,4 +1,4 @@
-import {cart,removeFromCart} from "../data/cart.js" ;
+import {cart,removeFromCart,updateCartQuantity,updateQuantity} from "../data/cart.js" ;
 import {products} from "../data/products.js" ;
 import {formatCurrency} from "./utils.js" ;
 
@@ -41,7 +41,7 @@ cart.forEach((cartitem)=>{
                     Update
                   </span>
 
-                  <input class="quantity-input">
+                  <input class="quantity-input" data-product-id="${product.id}">
                   <span class="save-quantity-link link-primary js-save-link" data-product-id="${product.id}"> Save </span>
 
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${product.id}">
@@ -114,16 +114,44 @@ document.querySelectorAll(".js-update-link").forEach((link)=>{
     });
 });
 
-document.querySelectorAll(".js-save-link").forEach((link) => {
-  link.addEventListener("click", () => {
-
-    const productId = link.getAttribute("data-product-id");
+function saveButton(productId) {
 
     const container = document.querySelector(`.js-product-quantity${productId}`);
 
-    container.classList.remove("is-editing-quantity");
+    const newQuantity = Number(container.querySelector(".quantity-input").value);
 
+    if (isNaN(newQuantity) || newQuantity < 0 || newQuantity >= 1000) {
+          alert("Please enter a valid quantity between 0 and 999");
+          return;
+      }
+
+    updateQuantity(productId, newQuantity);
+
+    container.querySelector(".quantity-label").innerText = newQuantity;
+
+    updateCartQuantity();
+
+
+    container.classList.remove("is-editing-quantity");
+}
+
+document.querySelectorAll(".js-save-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    
+  const productId = link.getAttribute("data-product-id");
+    saveButton(productId  ) ;
   });
+});
+
+document.querySelectorAll(".quantity-input").forEach((link) => {
+
+  link.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const productId = link.getAttribute("data-product-id");
+      saveButton(productId); ;
+    }
+});
+
 });
 
 
@@ -134,6 +162,8 @@ document.querySelectorAll(".js-delete-link").forEach((link)=>{
         const productId =  link.getAttribute("data-product-id") ;
 
         removeFromCart(productId) ;
+
+        updateCartQuantity() ;
         
     });
 });
