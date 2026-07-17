@@ -60,6 +60,8 @@ export function updateCartQuantity() {
   if (checkoutQuantityElement) {
     checkoutQuantityElement.innerText = `${cart.length} items`;
   }
+
+  
 }
 
 export function updateQuantity(productId, newQuantity) {
