@@ -4,10 +4,12 @@ import {formatCurrency} from "../utils.js" ;
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import {deliveryOptions,getDeliveryOption} from "../../data/delivery-options.js";
 import {renderPaymentSummary} from "./paymentSummary.js"
+import {renderCheckoutHeader} from "./checkoutHeader.js"
 
 
 export function renderOrderSummary(){
-  document.querySelector(".return-to-home-link").innerText = `${cart.length} items` ;
+
+  renderCheckoutHeader() ; 
 
   let checkoutItemsHTML = "" ;
 
@@ -135,14 +137,7 @@ export function renderOrderSummary(){
         }
 
       updateQuantity(productId, newQuantity);
-
-      container.querySelector(".quantity-label").innerText = newQuantity;
-
-      updateCartQuantity();
-
-
-      container.classList.remove("is-editing-quantity");
-
+      renderOrderSummary() ;
       renderPaymentSummary() ;
   }
 
@@ -171,6 +166,8 @@ export function renderOrderSummary(){
           const productId =  link.getAttribute("data-product-id") ;
 
           removeFromCart(productId) ;
+
+          renderOrderSummary() ; 
 
           updateCartQuantity() ;
 

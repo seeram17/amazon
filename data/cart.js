@@ -30,7 +30,6 @@ export function removeFromCart(productId) {
             if(cartitem.productId === productId) cart.splice(index,1) ;
         });
 
-        document.querySelector(`.cart-item-container-${productId}`).remove() ;
 
         saveCartToLocalStorage() ;
 
@@ -54,14 +53,6 @@ export function updateCartQuantity() {
   if (cartQuantityElement) {
     cartQuantityElement.innerText = cartQuantity;
   }
-
-  const checkoutQuantityElement = document.querySelector(".return-to-home-link");
-
-  if (checkoutQuantityElement) {
-    checkoutQuantityElement.innerText = `${cart.length} items`;
-  }
-
-  
 }
 
 export function updateQuantity(productId, newQuantity) {
