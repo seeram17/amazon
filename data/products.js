@@ -31,7 +31,44 @@ class Product{
 
   getPrice(){ return formatCurrency(this.priceCents)}
 
+  extraInfoHTML(){ return ``}
+
 }
+
+class Clothing extends Product{
+
+  sizeChartLink ; 
+
+  constructor(productDetails){
+    super(productDetails) ;
+    this.sizeChartLink='../images/clothing-size-chart.png'; 
+  }
+
+extraInfoHTML() {
+  return `
+    <a
+      href="${this.sizeChartLink}"
+      target="_blank"
+      style="
+        color: #007185;
+        text-decoration: none;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 6px;
+      "
+      onmouseover="this.style.textDecoration='underline'; this.style.color='#C7511F';"
+      onmouseout="this.style.textDecoration='none'; this.style.color='#007185';"
+    >
+      Size chart
+    </a>
+  `;
+}
+
+}
+
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -692,5 +729,7 @@ export const products = [
     ]
   }
 ].map((productDetails)=>{
+
+  if(productDetails.type ==='clothing') return new Clothing(productDetails);
    return new Product(productDetails) ; 
 });
